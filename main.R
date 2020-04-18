@@ -42,9 +42,40 @@ is.test <- setdiff(1:nrow(X.mat), is.train)
 # Divide train into a 50% training data and 50% validation data
 is.subtrain <- sample(1 : (length(is.train)), (.5 * length(is.train)), replace = F)
 validation <- setdiff(1:length(is.train), is.subtrain)
+X.subtrain.mat <- X.mat[is.subtrain, ]
+y.subtrain.vec <- y.vec[is.subtrain]
 
 # TODO: Define a for loop over regularization parameter values, 
 #       and fit a neural network for each.
+# X axis = # hidden units in a network with 1 hidden layer
+hidden.units.vec <- 2^seq(1,10)
+
+for( counter in seq_along(hidden.units.vec) )
+{
+	num.hidden <- hidden.units.vec[[counter]]
+	model <- keras_model_sequential() %>%
+		layer_dense( #hidden layer
+			input_shape = ncol(X.subtrain.mat),
+			units = num.hidden,
+			activation = "sigmoid",
+			use_bias=FALSE
+		) %>%
+		layer_dense(1, activation = "sigmoid", use_bias=FALSE) #output layer
+	model %>%
+		compile(
+			loss = "binary_crossentropy",
+			optimizer = "sgd",
+			metrics = "accuracy"
+		)
+	result <- model %>%
+		fit(
+			x = X.subtrain.mat, y = y.subtrain.vec,
+			epochs = 100,
+			validation_split = 0.3,
+			verbose = 2
+		)
+	print(plot(result))
+}
 
 # TODO: On the same plot, show the logistic loss as a function of the
 #       regularization parameter (use a different color for each set, e.g.
