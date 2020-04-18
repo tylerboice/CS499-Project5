@@ -1,4 +1,4 @@
-# install packages if they are not already installed
+# Install packages if they are not already installed
 if(!require("data.table"))
 {
 	install.packages("data.table")
@@ -7,12 +7,22 @@ if(!require("ggplot2"))
 {
   install.packages("ggplot2")
 }
+if(!require("tensorflow"))
+{
+  install.packages("tensorflow")
+}
+if(!require("keras"))
+{
+  install.packages("keras")
+}
 
-# load the installed packages
+# Load the installed packages
 library(data.table)
 library(ggplot2)
+library(tensorflow)
+library(keras)
 
-# download spam data set to local directory, if it is not present
+# Download spam data set to local directory, if it is not present
 if(!file.exists("spam.data"))
 {
 	download.file("https://web.stanford.edu/~hastie/ElemStatLearn/datasets/spam.data", "spam.data")
@@ -33,3 +43,23 @@ is.test <- setdiff(1:nrow(X.mat), is.train)
 is.subtrain <- sample(1 : (length(is.train)), (.5 * length(is.train)), replace = F)
 validation <- setdiff(1:length(is.train), is.subtrain)
 
+# TODO: Define a for loop over regularization parameter values, 
+#       and fit a neural network for each.
+
+# TODO: On the same plot, show the logistic loss as a function of the
+#       regularization parameter (use a different color for each set, e.g.
+#       subtrain=solid, validation=dashed). Draw a point to emphasize the minimum
+#       of each validation loss curve. As the strength of regularization decreases,
+#       the train loss should always decrease, whereas the validation loss should
+#       decrease up to a certain point, and then start increasing (overfitting).
+
+# TODO: Define a variable called best_parameter_value which is the regularization 
+#       parameter value which minimizes the validation loss.
+
+# TODO: Re-train the network on the entire train set (not just the subtrain set),
+#       using the corresponding value of best_parameter_value.
+
+# TODO: Finally use the learned model to make predictions on the test set.
+#       What is the prediction accuracy? (percent correctly predicted labels 
+#       in the test set) What is the prediction accuracy of the baseline model 
+#       which predicts the most frequent class in the train labels?
