@@ -48,6 +48,7 @@ y.subtrain.vec <- y.vec[is.subtrain]
 # Define a for loop over regularization parameter values, 
 # and fit a neural network for each.
 # X axis = # hidden units in a network with 1 hidden layer
+
 # On the same plot, show the logistic loss as a function of the
 # regularization parameter (use a different color for each set, e.g.
 # subtrain=solid, validation=dashed). Draw a point to emphasize the minimum
