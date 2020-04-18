@@ -45,8 +45,8 @@ validation <- setdiff(1:length(is.train), is.subtrain)
 X.subtrain.mat <- X.mat[is.subtrain, ]
 y.subtrain.vec <- y.vec[is.subtrain]
 
-# TODO: Define a for loop over regularization parameter values, 
-#       and fit a neural network for each.
+# Define a for loop over regularization parameter values, 
+# and fit a neural network for each.
 # X axis = # hidden units in a network with 1 hidden layer
 hidden.units.vec <- 2^seq(1,10)
 
