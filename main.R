@@ -48,6 +48,13 @@ y.subtrain.vec <- y.vec[is.subtrain]
 # Define a for loop over regularization parameter values, 
 # and fit a neural network for each.
 # X axis = # hidden units in a network with 1 hidden layer
+# On the same plot, show the logistic loss as a function of the
+# regularization parameter (use a different color for each set, e.g.
+# subtrain=solid, validation=dashed). Draw a point to emphasize the minimum
+# of each validation loss curve. As the strength of regularization decreases,
+# the train loss should always decrease, whereas the validation loss should
+# decrease up to a certain point, and then start increasing (overfitting).
+
 hidden.units.vec <- 2^seq(1,10)
 
 for( counter in seq_along(hidden.units.vec) )
@@ -77,15 +84,9 @@ for( counter in seq_along(hidden.units.vec) )
 	print(plot(result))
 }
 
-# TODO: On the same plot, show the logistic loss as a function of the
-#       regularization parameter (use a different color for each set, e.g.
-#       subtrain=solid, validation=dashed). Draw a point to emphasize the minimum
-#       of each validation loss curve. As the strength of regularization decreases,
-#       the train loss should always decrease, whereas the validation loss should
-#       decrease up to a certain point, and then start increasing (overfitting).
-
 # TODO: Define a variable called best_parameter_value which is the regularization 
 #       parameter value which minimizes the validation loss.
+best_parameter_value <- min(val_loss)
 
 # TODO: Re-train the network on the entire train set (not just the subtrain set),
 #       using the corresponding value of best_parameter_value.
@@ -94,3 +95,6 @@ for( counter in seq_along(hidden.units.vec) )
 #       What is the prediction accuracy? (percent correctly predicted labels 
 #       in the test set) What is the prediction accuracy of the baseline model 
 #       which predicts the most frequent class in the train labels?
+y.tab <- table(is.train)
+y.pred <- as.integer(names(y.tab[which.max(y.tab)]))
+accuracy <- mean(is.subtrain == y.pred)
